@@ -163,6 +163,18 @@
 | **Settlement** | The actual transfer of money between banks to complete a payment |
 | **SWIFT** | Society for Worldwide Interbank Financial Telecommunication — global financial messaging network |
 | **Tokenization** | Replacing a card number with a unique device-specific token for security |
+| **UPI** | Unified Payments Interface — India's real-time payment system operated by NPCI |
+| **VPA** | Virtual Payment Address — UPI ID like `user@bank` that maps to a bank account |
+| **VisaNet** | Visa's global transaction processing network |
+| **Banknet** | Mastercard's distributed global processing network |
+| **ISO 8583** | Binary message standard used for card authorization requests |
+| **3D Secure** | Authentication protocol for online card-not-present payments |
+| **MCC** | Merchant Category Code — classifies the type of merchant business |
+| **PIX** | Brazil's instant payment system operated by the central bank (BCB) |
+| **SEPA** | Single Euro Payments Area — 36 European countries with harmonized euro payments |
+| **SCT Inst** | SEPA Instant Credit Transfer — real-time euro payment scheme |
+| **PSD2** | Payment Services Directive 2 — EU Open Banking regulation |
+| **NetsUnion** | China's centralized clearing platform for mobile payments |
 | **Vostro Account** | "Your account with us" — a correspondent bank's term for another bank's account held with them |
 
 ---
@@ -417,11 +429,14 @@
 | **TTR** | Threshold Transaction Report |
 | **UAT** | User Acceptance Testing |
 | **UBO** | Ultimate Beneficial Owner |
+| **UPI** | Unified Payments Interface |
 | **VaR** | Value at Risk |
+| **VPA** | Virtual Payment Address |
 
 ---
 
 **Previous**: [← Module 07 — Australian Banking & NAB](./07-australian-banking-nab.md)  
+**Next**: [Module 09 — Global Payment Systems →](./09-global-payment-systems.md)  
 **Back to Index**: [← README](./README.md)
 
 ---

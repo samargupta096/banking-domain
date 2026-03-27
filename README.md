@@ -17,6 +17,7 @@
 | [06](./06-banking-technology-architecture.md) | **Banking Technology & Architecture** | Core banking, APIs, microservices, cloud, Open Banking |
 | [07](./07-australian-banking-nab.md) | **Australian Banking & NAB** | Big 4, RBA, APRA, NPP, CDR, Royal Commission |
 | [08](./08-banking-glossary.md) | **Banking Glossary** | 200+ terms with definitions, organized by category |
+| [09](./09-global-payment-systems.md) | **Global Payment Systems** | Visa, Mastercard, UPI, SEPA, PIX, Alipay/WeChat Pay deep dive |
 
 ---
 
@@ -29,6 +30,7 @@ graph LR
     B --> D["04 Payments"]
     C --> E["05 Risk & Compliance"]
     D --> E
+    D --> I["09 Global Payments"]
     E --> F["06 Technology"]
     F --> G["07 Australian Banking"]
     A --> H["08 Glossary"]
@@ -40,6 +42,7 @@ graph LR
     style F fill:#1a1a2e,color:#fff
     style G fill:#1a4a1a,color:#fff
     style H fill:#3d2b1f,color:#fff
+    style I fill:#0f172a,color:#fff
 ```
 
 > **Recommended approach**: Start with Module 01 and work through sequentially. Use Module 08 (Glossary) as a reference throughout your learning journey.
@@ -57,7 +60,7 @@ graph LR
 
 ## 📖 How to Use This Knowledge Base
 
-1. **Sequential Learning** — Work through modules 01→07 for a complete understanding
+1. **Sequential Learning** — Work through modules 01→07 for a complete understanding, then deep-dive into 09 for global payments
 2. **Reference Mode** — Jump to specific modules when you need to understand a particular topic
 3. **Glossary First** — Start with Module 08 if you're hearing terms you don't understand
 4. **Deep Dive** — Each module has expandable sections with deeper technical details
