@@ -15,7 +15,8 @@
 - [5.5 Three Lines of Defence](#55-three-lines-of-defence)
 - [5.6 PCI-DSS](#56-pci-dss)
 - [5.7 Stress Testing & Scenario Analysis](#57-stress-testing--scenario-analysis)
-- [5.8 Key Takeaways](#58-key-takeaways)
+- [5.8 Financial Crime Technology (FinCrime Tech)](#58-financial-crime-technology-fincrime-tech)
+- [5.9 Key Takeaways](#59-key-takeaways)
 
 ---
 
@@ -417,7 +418,92 @@ Banks must demonstrate they can survive severe economic shocks.
 
 ---
 
-## 5.8 Key Takeaways
+## 5.8 Financial Crime Technology (FinCrime Tech)
+
+For software engineers, Financial Crime is a massive, complex domain intersecting high-throughput distributed systems, graph theory, and machine learning.
+
+The FinCrime technology ecosystem is generally divided into three main pillars:
+
+| Pillar | Focus Area | Technical Nature |
+|--------|-----------|------------------|
+| **Sanctions & Watchlist Screening** | Checking if we are allowed to do business with an entity or process a payment to them. | String matching (Fuzzy logic, Levenshtein distance), High-throughput, synchronous blocking. |
+| **Transaction Monitoring (AML)** | Finding hidden patterns in legitimate-looking transactions (Layering/Integration). | Batch/Asynchronous, Rule engines, Anomaly detection, Graph analysis. |
+| **Fraud Detection** | Stopping bad actors from stealing money from the bank or customers (Account Takeover, Scams). | Sub-second real-time inference, device intelligence, behavioral biometrics. |
+
+### 5.8.1 The Tech Challenge of Real-Time Payments
+
+In traditional batch payments (like BECS), banks have hours to run nightly batch jobs for transaction monitoring and sanctions screening. 
+
+In real-time rails like **NPP (Australia) or UPI (India)**, the SLA for the entire payment is often under 1-2 seconds. 
+- **The FinCrime Window**: The screening engine might be allocated only **50-100 milliseconds** to decide if a transaction should be blocked.
+- **Synchronous vs Asynchronous**: 
+  - Sanctions and Fraud are *synchronous* (inline) — the payment is held until the system says "Pass".
+  - AML transaction monitoring is typically *asynchronous* (post-event) — the payment goes through, and alerts are generated for analysts to review later.
+
+### 5.8.2 Graph Databases & Network Analysis
+
+Money launderers use complex webs of shell companies and mule accounts to hide the origin of funds (Layering). Traditional relational databases (SQL) are terrible at finding relationships > 2-3 hops deep.
+
+Modern FinCrime tech relies heavily on **Graph Databases** (like Neo4j, TigerGraph, or Amazon Neptune).
+
+```mermaid
+graph TD
+    subgraph "Relational Query: Very Slow"
+        A[Entity A] -->|Sends Money| B[Entity B]
+        B -->|Sends Money| C[Entity C]
+    end
+    
+    subgraph "Graph Network: Highly Optimized"
+        ACCT1((Acc 123)) -- transferred_to --> MULE1((Mule A))
+        ACCT2((Acc 456)) -- transferred_to --> MULE1
+        MULE1 -- sent_crypto --> WALLET{Wallet XYZ}
+        ACCT3((Acc 789)) -- shares_IP_with --> ACCT1
+    end
+    
+    style ACCT1 fill:#1a365d,color:#fff
+    style ACCT2 fill:#1a365d,color:#fff
+    style ACCT3 fill:#1a365d,color:#fff
+    style MULE1 fill:#8b0000,color:#fff
+    style WALLET fill:#4b0082,color:#fff
+```
+
+Graph DBs allow engineers to run queries like: *"Find all accounts that share a phone number, where at least 3 of those accounts sent money to the same off-shore beneficiary within 48 hours."*
+
+### 5.8.3 The False Positive Problem & Machine Learning
+
+Traditional AML systems are **Rules-Based** (e.g., `IF transaction > $9,900 AND frequency > 3/week THEN Alert`).
+- **The Result**: These systems generate massive alert volumes with **95%+ False Positive Rates**.
+- **The Cost**: Banks hire thousands of analysts just to click "Close - False Positive".
+
+**The ML Solution:**
+Rather than replacing the rules engine (which regulators still like for explainability), banks use ML for **Alert Triage/Scoring**.
+1. Rule Engine fires an alert.
+2. An ML model evaluates the alert context and scores it (0.0 to 1.0).
+3. Alerts below a certain threshold are "auto-hibernated" or deprioritized.
+4. Analysts only focus on the top 5% of highest-risk alerts.
+
+### 5.8.4 ISO 20022 and FinCrime
+
+Historically, SWIFT MT messages had unstructured, truncated text strings (e.g., "MR J SMITH BLDG 4 ACME").
+- If a terrorist named "JOHN SMITH" was on a sanctions list, the screening engine using fuzzy matching would flag millions of innocent "J SMITHS", bringing operations to a halt.
+
+**ISO 20022** solves this through highly structured XML data:
+```xml
+<Cdtr>
+  <Nm>Johnathan Smith</Nm>
+  <PstlAdr>
+    <StrtNm>Wall Street</StrtNm>
+    <BldgNb>45</BldgNb>
+    <TwnNm>New York</TwnNm>
+    <Ctry>US</Ctry>
+  </PstlAdr>
+</Cdtr>
+```
+With structured fields (`StrtNm`, `Ctry`), screening algorithms can drastically reduce false positives because they know exactly which string is a name and which is a city.
+
+---
+
+## 5.9 Key Takeaways
 
 > [!IMPORTANT]
 > **Core Concepts to Remember**:
